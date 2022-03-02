@@ -4,7 +4,7 @@ import { ContentStyled, LayoutStyled, ListLinksStyled, ImageLogo } from './style
 
 interface FooterProps {
   primaryColor: string
-  secondaryColor: string
+  secondaryColor?: string
   linkTitles: Array<string>
   linkPaths: Array<string>
   imageLogo: string
@@ -12,7 +12,7 @@ interface FooterProps {
 
 const Footer: React.FC<FooterProps> = ({
   primaryColor,
-  secondaryColor,
+  secondaryColor = undefined,
   linkTitles,
   linkPaths,
   imageLogo
@@ -24,7 +24,7 @@ const Footer: React.FC<FooterProps> = ({
           src={Assets(imageLogo)}
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         />
-        <ListLinksStyled>
+        <ListLinksStyled color={secondaryColor}>
           {linkTitles.map((title: string, index: number) => {
             return (
               <span
