@@ -51,6 +51,7 @@ const Header: React.FC<HeaderProps> = ({
           {buttonsTitles.map((title: string, index: number) => {
             return (
               <BtnSpanStyled
+                color={secondaryColor}
                 key={`button-header-${index}`}
                 onClick={() => handleBttnSpan(index)}
               >
