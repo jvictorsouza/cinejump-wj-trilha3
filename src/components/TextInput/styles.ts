@@ -1,9 +1,16 @@
-import styled from '@emotion/styled'
-import { FormControl, TextField, Theme } from '@mui/material'
-import { css } from '@mui/styled-engine'
+import { FormControl, TextField } from '@mui/material'
+import styled, { css } from 'styled-components'
 
 export const TextFieldStyled = styled(TextField)`
-  ${({ addorment, height }: { addorment: number | undefined; height: number }) =>
+  ${({
+    addorment,
+    height,
+    width
+  }: {
+    addorment: number | undefined
+    height: number
+    width: number | undefined
+  }) =>
     css`
       .MuiInputLabel-root {
         display: none;
@@ -11,17 +18,23 @@ export const TextFieldStyled = styled(TextField)`
 
       .MuiOutlinedInput-root {
         height: ${height}px;
+
+        ${width &&
+        css`
+          width: ${width}px;
+        `}
+
         font-size: 24px;
-        color: #7c7a7a;
+        color: ${({ theme }) => theme.colors.backgroundComponent};
         font-weight: 400;
-        background-color: #efefef;
+        background-color: ${({ theme }) => theme.colors.hoverSecondary};
         border-radius: 10px;
       }
 
       .MuiOutlinedInput-root {
         &.Mui-focused fieldset {
-          outline: #e83f5b;
-          border: 2px solid #e83f5b;
+          outline: ${({ theme }) => theme.colors.primary};
+          border: 2px solid ${({ theme }) => theme.colors.primary};
           border-radius: 10px;
         }
       }
@@ -56,8 +69,7 @@ export const TextFieldStyled = styled(TextField)`
 `
 
 export const FormControlStyled = styled(FormControl)`
-  ${({ theme, width }: { theme?: Theme; width?: number }) =>
-    theme &&
+  ${({ width }: { width?: number }) =>
     css`
       ${width &&
       css`

@@ -8,7 +8,7 @@ export const StyledToastContainer = styled(ToastContainer).attrs({
   .Toastify__toast--error {
     font-family: 'Ubuntu', sans-serif;
     background: #ab4b4b;
-    color: ${({ theme }) => theme.colors.one};
+    color: #ffffff;
     font-size: 15px;
     justify-self: center;
     font-weight: 600;
@@ -21,7 +21,7 @@ export const StyledToastContainer = styled(ToastContainer).attrs({
   .Toastify__toast--success {
     font-family: 'Ubuntu', sans-serif;
     background: #4d9144;
-    color: ${({ theme }) => theme.colors.one};
+    color: #ffffff;
     font-size: 15px;
     font-weight: 600;
     border-radius: 6px;
@@ -33,7 +33,7 @@ export const StyledToastContainer = styled(ToastContainer).attrs({
   .Toastify__toast--warning {
     font-family: 'Ubuntu', sans-serif;
     background: #aba94b;
-    color: ${({ theme }) => theme.colors.one};
+    color: #ffffff;
     font-size: 15px;
     font-weight: 600;
     border-radius: 6px;
