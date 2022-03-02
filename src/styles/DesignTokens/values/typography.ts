@@ -40,11 +40,11 @@ export const typography: TypographyInterface = {
     size: {
       big: '64px',
       medium: '24px',
-      small: '16px',
+      small: '14px',
       x: {
         big: '36px',
         medium: '30px',
-        small: '14px'
+        small: '20px'
       }
     },
     weight: {
