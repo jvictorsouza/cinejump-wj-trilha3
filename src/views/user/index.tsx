@@ -10,9 +10,9 @@ import {
   BaseStyled,
   ImageLogo,
   CenterVerticalContentStyled,
-  Title,
-  SubTitle,
-  BottomButton
+  TitleStyled,
+  SubTitleStyled,
+  BottomButtonStyled
 } from './styles'
 import useForm, { Form } from 'hooks/useForm'
 import TextInput from 'components/TextInput'
@@ -47,11 +47,11 @@ const User: React.FC = () => {
   ) => {
     return (
       <CenterVerticalContentStyled>
-        <Title color="white" fontWeight={500}>
+        <TitleStyled color="white" fontWeight={500}>
           {title}
-        </Title>
-        <SubTitle>{subtitle}</SubTitle>
-        <BottomButton onClick={onClickButton}>{textButton}</BottomButton>
+        </TitleStyled>
+        <SubTitleStyled>{subtitle}</SubTitleStyled>
+        <BottomButtonStyled onClick={onClickButton}>{textButton}</BottomButtonStyled>
       </CenterVerticalContentStyled>
     )
   }
@@ -122,9 +122,9 @@ const User: React.FC = () => {
   const renderPrimarySubContent = (title: string, textButton: string) => {
     return (
       <CenterVerticalContentStyled>
-        <Title color="#E83F5B" fontWeight={400}>
+        <TitleStyled color="#E83F5B" fontWeight={400}>
           {title}
-        </Title>
+        </TitleStyled>
         <Form onSubmit={handleSubmit} autoComplete>
           {!isLoginActive() ? (
             <TextInput
@@ -169,7 +169,7 @@ const User: React.FC = () => {
             error={errors.password}
           />
 
-          <BottomButton type="submit">{textButton}</BottomButton>
+          <BottomButtonStyled type="submit">{textButton}</BottomButtonStyled>
         </Form>
       </CenterVerticalContentStyled>
     )

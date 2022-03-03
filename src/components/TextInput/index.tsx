@@ -54,12 +54,13 @@ const Input: React.FC<InputProps> = ({
     ) : null
   return (
     <>
-      <FormControlStyled fullWidth {...(width && { width })}>
+      <FormControlStyled fullWidth>
         <TextFieldStyled
           error={hasError()}
           variant="outlined"
           name={name}
           height={height}
+          width={width}
           onBlur={onBlur}
           onClick={onClick}
           id={id ? id : name}

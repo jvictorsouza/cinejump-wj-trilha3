@@ -1,7 +1,7 @@
 import React from 'react'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import ToastContent from '../components/Toast/content'
+import ToastContent from '../components/ToastNotification/content'
 
 export type ToastStatusType = 'success' | 'warnning' | 'error'
 

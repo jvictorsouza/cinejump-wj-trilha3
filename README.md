@@ -2,24 +2,40 @@
 
 # Cinejump
 
-Projeto final da Trilha 2 para desenvolvedores Frontend React disponibilizado pela Academia Webjump, programa de capacitação interno da empresa Webjump Design em Informática. O projeto consiste em um website voltado para amostragem de filmes e séries.
+Projeto final da Trilha 3 para desenvolvedores Frontend React disponibilizado pela Academia Webjump, programa de capacitação interno da empresa Webjump Design em Informática. O projeto consiste em um website voltado para amostragem de filmes e séries.
 
-## Motivação
-
-Criação de uma plataforma com login, cadastro e home page com ReactJS e Typescript.
-
-## Métodos e resultados
-
-O projeto visa componentizar os principais elementos da página estruturando em módulos/containers as principais telas do projeto. Os principais componentes e módulos são:
+O presente repositório foi originado a partir do _fork_ da [Trilha 2](https://github.com/jvictorsouza/cinejump-wj-trilha2), onde os seguintes componentes e módulos foram desenvolvidos:
 
 - TextInput
 - ToastNotification
 - Header
 - Footer
-- Login
-- Cadatro
+- Login (LocalStorage)
+- Cadatro (LocalStorage)
 - Home
-- Favorites
+- Favorites (LocalStorage)
+
+O projeto da [Trilha 2](https://github.com/jvictorsouza/cinejump-wj-trilha2), teve como pilar as seguintes características/ferramentas:
+
+- React
+- Typescript - interfaces and types
+- MUI - material-UI package
+- TMDB API - axios package
+- Youtube API - youtube-search package
+
+## Motivação
+
+Criação de uma plataforma com login, cadastro e home page com ReactJS, Typescript, Design System e Storybook.
+
+## Métodos e resultados
+
+O projeto visa documentar e padronizar os principais componentes e módulos do projeto, como também substituir os usos do LocalStorage pela [Cinejump API](https://github.com/90lucasgabriel/cinejump-api#live-api) . As ferramentas adicionadas ao projeto [Trilha 2](https://github.com/jvictorsouza/cinejump-wj-trilha2) para atingir tal objetivo foram:
+
+- Default Theme
+- Design System
+  - values
+  - components
+- Storybook
 
 ## Projeto
 
@@ -50,7 +66,6 @@ npm run start
 ```
 
 Acesse a url http://localhost:8080/
-
 
 ## Vídeo demonstrativo
 

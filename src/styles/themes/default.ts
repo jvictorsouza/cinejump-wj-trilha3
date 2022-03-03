@@ -1,15 +1,26 @@
-import { DefaultTheme } from "styled-components";
+import { DefaultTheme } from 'styled-components'
+import DT from '../DesignTokens'
 
 export default {
-  title: "default",
-
-  colors: {
-    zero: "#231f20",
-    one: "#ffffff", 
-    two: "#cc0d1f",
-    three: "#80bdb8",
-    four: "#acacac",
-    five: "#e2dedb",
-    six: "#9a2e2a",
+  title: 'default',
+  breakpoints: {
+    values: {
+      xs: 0,
+      xsm: 320,
+      sm: 768,
+      md: 1024,
+      lg: 1440
+    }
   },
-} as DefaultTheme;
+  colors: {
+    primary: '#e83f5b',
+    secondary: '#ffffff',
+    hoverMain: '#80bcb8',
+    hoverPrimary: '#9c283c',
+    hoverSecondary: '#efefef',
+    text: '#ffffff',
+    backgroundText: '#0000004d',
+    backgroundComponent: '#7c7a7a'
+  },
+  DesignTokens: { ...DT }
+} as DefaultTheme

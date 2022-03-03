@@ -3,6 +3,7 @@ import { Outlet, useNavigate } from 'react-router-dom'
 import Footer from './components/Footer'
 import Header from './components/Header'
 import { Styles } from './styles'
+import DesignTokens from '../../styles/DesignTokens'
 
 const Layout: React.FC = () => {
   const navigate = useNavigate()
@@ -20,16 +21,16 @@ const Layout: React.FC = () => {
   return (
     <Styles>
       <Header
-        primaryColor="#E83F5B"
-        secondaryColor="#FFFFFF"
+        primaryColor={DesignTokens.palette.primary}
+        secondaryColor={DesignTokens.palette.secondary}
         buttonsTitles={['Filmes', 'Séries']}
         imageLogo="assets/images/Logo-white.svg"
         logoutFunction={logoutAndRedirect}
       />
       <Outlet />
       <Footer
-        primaryColor="#E83F5B"
-        secondaryColor="#FFFFFF"
+        primaryColor={DesignTokens.palette.primary}
+        secondaryColor={DesignTokens.palette.secondary}
         linkTitles={[
           'Desenvolvido por João Chagas',
           'Proposta do projeto',
