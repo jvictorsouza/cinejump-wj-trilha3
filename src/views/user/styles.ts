@@ -60,13 +60,3 @@ export const SubTitleStyled = styled('div')`
       color: ${theme.colors.text};
     `}
 `
-
-export const BottomButtonStyled = styled('button')`
-  ${({ theme }: { theme?: DefaultTheme }) =>
-    theme &&
-    css`
-      ${theme.DesignTokens.DSComponents?.buttons?.primaryButton}
-      width: 360px;
-      height: 72px;
-    `}
-`
