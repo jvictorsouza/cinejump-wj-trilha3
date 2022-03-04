@@ -2,12 +2,13 @@ import { Assets } from 'helpers/assets'
 import React from 'react'
 import { ContentStyled, LayoutStyled, ListLinksStyled, ImageLogo } from './styles'
 
-interface FooterProps {
+export interface FooterProps {
   primaryColor: string
   secondaryColor?: string
   linkTitles: Array<string>
   linkPaths: Array<string>
-  imageLogo: string
+  isOnAssets?: boolean
+  urlPathImageLogo?: string
 }
 
 const Footer: React.FC<FooterProps> = ({
@@ -15,15 +16,19 @@ const Footer: React.FC<FooterProps> = ({
   secondaryColor = undefined,
   linkTitles,
   linkPaths,
-  imageLogo
+  isOnAssets = true,
+  urlPathImageLogo
 }) => {
   return (
     <LayoutStyled backgroundColor={primaryColor}>
       <ContentStyled>
-        <ImageLogo
-          src={Assets(imageLogo)}
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        />
+        {(urlPathImageLogo && (
+          <ImageLogo
+            src={isOnAssets ? Assets(urlPathImageLogo) : urlPathImageLogo}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            maxHeight={'200px'}
+          />
+        )) || <span style={{ color: secondaryColor, margin: 'auto' }}>LOGO IMAGE</span>}
         <ListLinksStyled color={secondaryColor}>
           {linkTitles.map((title: string, index: number) => {
             return (

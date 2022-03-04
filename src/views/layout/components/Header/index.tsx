@@ -11,12 +11,13 @@ import { Assets } from 'helpers/assets'
 import { FiSearch, FiLogOut } from 'react-icons/fi'
 import { BiUserCircle } from 'react-icons/bi'
 
-interface HeaderProps {
+export interface HeaderProps {
   primaryColor: string
   secondaryColor: string
   buttonsTitles: Array<string>
   buttonsFunctions?: Array<Function>
-  imageLogo: string
+  isOnAssets?: boolean
+  urlPathImageLogo?: string
   searchFunction?: Function
   profileFunction?: Function
   logoutFunction: Function
@@ -27,7 +28,8 @@ const Header: React.FC<HeaderProps> = ({
   secondaryColor,
   buttonsTitles,
   buttonsFunctions = [],
-  imageLogo,
+  isOnAssets = true,
+  urlPathImageLogo,
   searchFunction,
   profileFunction,
   logoutFunction
@@ -60,10 +62,13 @@ const Header: React.FC<HeaderProps> = ({
             )
           })}
         </BttnsCampStyled>
-        <ImageLogo
-          src={Assets(imageLogo)}
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        />
+        {(urlPathImageLogo && (
+          <ImageLogo
+            src={isOnAssets ? Assets(urlPathImageLogo) : urlPathImageLogo}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            maxHeight={'50px'}
+          />
+        )) || <span style={{ color: secondaryColor, margin: 'auto' }}>LOGO IMAGE</span>}
         <BttnsCampStyled>
           <FiSearch
             id="SVGBttn"

@@ -49,5 +49,9 @@ export const BtnSpanStyled = styled('span')`
 `
 
 export const ImageLogo = styled('img')`
-  cursor: pointer;
+  ${({ maxHeight }: { maxHeight: string }) =>
+    css`
+      cursor: pointer;
+      max-height: ${maxHeight};
+    `}
 `
