@@ -47,7 +47,7 @@ nameFieldInput.args = {
   width: 530,
   addorment: true,
   InputProps: {
-    placeholder: 'Placeholder',
+    placeholder: 'Name',
     autoFocus: false,
     inputProps: { maxLength: 100 }
   },
@@ -62,7 +62,7 @@ emailFieldInput.args = {
   width: 530,
   addorment: true,
   InputProps: {
-    placeholder: 'Placeholder',
+    placeholder: 'E-mail',
     autoFocus: false,
     inputProps: { maxLength: 100 }
   },
@@ -72,12 +72,12 @@ emailFieldInput.storyName = 'email-field-input'
 
 export const passwordFieldInput = Template.bind({})
 passwordFieldInput.args = {
-  name: 'email',
+  name: 'password',
   height: 72,
   width: 530,
   addorment: true,
   InputProps: {
-    placeholder: 'Placeholder',
+    placeholder: 'Password',
     autoFocus: false,
     type: 'password',
     inputProps: { maxLength: 100 }
