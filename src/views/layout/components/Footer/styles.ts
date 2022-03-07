@@ -26,6 +26,7 @@ export const ListLinksStyled = styled('div')`
       display: flex;
       flex-direction: column;
       row-gap: 15px;
+      margin: auto;
 
       #LinkSpn {
         color: ${theme.colors.text};
@@ -46,5 +47,9 @@ export const ListLinksStyled = styled('div')`
 `
 
 export const ImageLogo = styled('img')`
-  cursor: pointer;
+  ${({ maxHeight }: { maxHeight: string }) =>
+    css`
+      cursor: pointer;
+      max-height: ${maxHeight};
+    `}
 `

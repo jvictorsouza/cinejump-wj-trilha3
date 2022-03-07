@@ -11,11 +11,11 @@ import {
   ImageLogo,
   CenterVerticalContentStyled,
   TitleStyled,
-  SubTitleStyled,
-  BottomButtonStyled
+  SubTitleStyled
 } from './styles'
 import useForm, { Form } from 'hooks/useForm'
 import TextInput from 'components/TextInput'
+import RoundedButton from 'components/RoundedButton'
 import { useNavigate } from 'react-router-dom'
 
 type PageFunctionalityType = 'login' | 'register'
@@ -51,7 +51,7 @@ const User: React.FC = () => {
           {title}
         </TitleStyled>
         <SubTitleStyled>{subtitle}</SubTitleStyled>
-        <BottomButtonStyled onClick={onClickButton}>{textButton}</BottomButtonStyled>
+        <RoundedButton onClickButton={onClickButton} textButton={textButton} />
       </CenterVerticalContentStyled>
     )
   }
@@ -168,8 +168,7 @@ const User: React.FC = () => {
             }}
             error={errors.password}
           />
-
-          <BottomButtonStyled type="submit">{textButton}</BottomButtonStyled>
+          <RoundedButton type="submit" textButton={textButton} />
         </Form>
       </CenterVerticalContentStyled>
     )

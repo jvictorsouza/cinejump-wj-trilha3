@@ -24,7 +24,7 @@ const Layout: React.FC = () => {
         primaryColor={DesignTokens.palette.primary}
         secondaryColor={DesignTokens.palette.secondary}
         buttonsTitles={['Filmes', 'Séries']}
-        imageLogo="assets/images/Logo-white.svg"
+        urlPathImageLogo="assets/images/Logo-white.svg"
         logoutFunction={logoutAndRedirect}
       />
       <Outlet />
@@ -46,7 +46,7 @@ const Layout: React.FC = () => {
           '_blank',
           'https://webjump.atlassian.net/wiki/spaces/AW/pages/2195030481/Projeto+Final+-+Trilha+1'
         ]}
-        imageLogo="assets/images/Logo-white.svg"
+        urlPathImageLogo="assets/images/Logo-white.svg"
       />
     </Styles>
   )
