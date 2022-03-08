@@ -1,14 +1,14 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_BASE_URL,
+  baseURL: process.env.REACT_APP_TMDB_API_BASE_URL,
   headers: {
     'Content-Type': 'application/json'
   }
 })
 
 const defaultParams = {
-  api_key: process.env.REACT_APP_API_KEY,
+  api_key: process.env.REACT_APP_TMB_API_KEY,
   language: 'pt-BR',
   region: 'BR'
 }
