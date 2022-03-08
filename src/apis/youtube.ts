@@ -14,11 +14,11 @@ const searchTrailer = async (title: string) => {
       if (error) {
         let errorCode = error.message.split(' ').slice(-1)[0]
         if (process.env.API_GOOGLE_YOUTUBE_V3 === '') {
-          RenderAToast('error', 'Youtube API - Token vazio')
+          RenderAToast('error', 'Youtube API - Empty token')
         } else if (errorCode === '403') {
-          RenderAToast('error', 'Youtube API - Cota de requisição excedida')
+          RenderAToast('error', 'Youtube API - Exceeded requisition quota')
         } else if (errorCode === '400') {
-          RenderAToast('error', 'Youtube API - Token inválido')
+          RenderAToast('error', 'Youtube API - Invalid token')
         }
       } else {
         window.open(`${results[0].link}`, '_blank')
