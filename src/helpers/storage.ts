@@ -62,9 +62,9 @@ export const loadFavorites = () => {
 }
 
 export const processStorageLogout = () => {
-  localStorage.setItem('session', JSON.stringify(false))
-  localStorage.removeItem('user')
-  window.location.replace('/user')
+  // localStorage.setItem('session', JSON.stringify(false))
+  // localStorage.removeItem('user')
+  // window.location.replace('/user')
 }
 
 export const updateFavorites = (id: string) => {

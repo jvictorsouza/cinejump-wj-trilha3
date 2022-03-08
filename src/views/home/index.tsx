@@ -1,33 +1,28 @@
-import React, { useState, useEffect } from 'react'
 import {
-  getPopularMovies,
   getPlayingMovies,
+  getPopularMovies,
   getRecomendationsMovies,
   getTopMovies
 } from 'apis/tmdb'
-import {
-  ContentStyled,
-  LayoutStyled,
-  LayoutHighlightsStyled,
-  ContentHighlightsStyled,
-  MainHighlightStyled,
-  SecondaryHighlightStyled,
-  LayoutRowStyled,
-  ContentRowStyled,
-  ImageCardStyled,
-  HeartFavoritesStyled,
-  TrailerCardStyled,
-  PlayVideoStyled
-} from './styles'
-import { StrObjectAny } from 'interfaces'
-import { Assets } from 'helpers/assets'
 import { searchTrailer } from 'apis/youtube'
+import { Assets } from 'helpers/assets'
+import { updateFavorites, verifyOnFavorites } from 'helpers/storage'
+import { StrObjectAny } from 'interfaces'
+import React, { useEffect, useState } from 'react'
 import {
-  loadFavorites,
-  processStorageLogout,
-  updateFavorites,
-  verifyOnFavorites
-} from 'helpers/storage'
+  ContentHighlightsStyled,
+  ContentRowStyled,
+  ContentStyled,
+  HeartFavoritesStyled,
+  ImageCardStyled,
+  LayoutHighlightsStyled,
+  LayoutRowStyled,
+  LayoutStyled,
+  MainHighlightStyled,
+  PlayVideoStyled,
+  SecondaryHighlightStyled,
+  TrailerCardStyled
+} from './styles'
 
 const Home: React.FC = (...props) => {
   const [popularsMovies, setPopularsMovies] = useState<Array<StrObjectAny>>([])
@@ -39,31 +34,20 @@ const Home: React.FC = (...props) => {
   const [favoritesMovies, setFavoritesMovies] = useState<Array<StrObjectAny>>([])
 
   useEffect(() => {
-    let userStorage = localStorage.getItem('user')
-    if (userStorage) {
-      getPopularMovies().then((data: StrObjectAny) => {
-        if (data) {
-          setPopularsMovies(data.results)
-          getRecomendationsMovies(data.results[0].id).then((data: StrObjectAny) => {
-            if (data) setRecomendationsMovies(data.results)
-          })
-        }
-      })
-      getPlayingMovies().then((data: StrObjectAny) => {
-        if (data) setPlayingMovies(data.results)
-      })
-      getTopMovies().then((data: StrObjectAny) => {
-        if (data) setTopMovies(data.results)
-      })
-      let favoritesData = loadFavorites()
-
-      let user = JSON.parse(userStorage)
-      setFavoritesMovies(
-        Object.keys(favoritesData).includes(user) ? favoritesData[user] : []
-      )
-    } else {
-      processStorageLogout()
-    }
+    getPopularMovies().then((data: StrObjectAny) => {
+      if (data) {
+        setPopularsMovies(data.results)
+        getRecomendationsMovies(data.results[0].id).then((data: StrObjectAny) => {
+          if (data) setRecomendationsMovies(data.results)
+        })
+      }
+    })
+    getPlayingMovies().then((data: StrObjectAny) => {
+      if (data) setPlayingMovies(data.results)
+    })
+    getTopMovies().then((data: StrObjectAny) => {
+      if (data) setTopMovies(data.results)
+    })
   }, [])
 
   const renderHighlights = () => {

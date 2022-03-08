@@ -1,22 +1,24 @@
+import { login, register } from 'apis/cinejump'
+import RoundedButton from 'components/RoundedButton'
+import TextInput from 'components/TextInput'
 import { Assets } from 'helpers/assets'
 import { errorMessagesValidation } from 'helpers/string'
-import { setUserSession } from 'helpers/storage'
-import { RenderAToast, ToastStatusType } from 'helpers/toast'
+import { RenderAToast } from 'helpers/toast'
+import useAuth, { TokenInterface } from 'hooks/useAuth'
+import useForm, { Form } from 'hooks/useForm'
+import { StrObjectAny } from 'interfaces'
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import PrimaryContent from './components/primaryContent'
 import SecondaryContent from './components/secondaryContent'
 import {
-  RowDivStyled,
   BaseStyled,
-  ImageLogo,
   CenterVerticalContentStyled,
-  TitleStyled,
-  SubTitleStyled
+  ImageLogo,
+  RowDivStyled,
+  SubTitleStyled,
+  TitleStyled
 } from './styles'
-import useForm, { Form } from 'hooks/useForm'
-import TextInput from 'components/TextInput'
-import RoundedButton from 'components/RoundedButton'
-import { useNavigate } from 'react-router-dom'
 
 type PageFunctionalityType = 'login' | 'register'
 
@@ -28,6 +30,7 @@ interface LoginFormProps {
 
 const User: React.FC = () => {
   const navigate = useNavigate()
+  const { setToken } = useAuth()
   const [pageFunctionality, setPageFunctionality] =
     useState<PageFunctionalityType>('login')
 
@@ -76,15 +79,34 @@ const User: React.FC = () => {
     )
   }
 
+  const processToken = (data: TokenInterface) => {
+    setToken(data)
+    localStorage.setItem('token', JSON.stringify(data))
+  }
+
   const handleSubmit = (event: any) => {
     event.preventDefault()
     if (validate()) {
-      const { email } = fields
-      const username = email.split('@')[0]
-      const { status, message } = setUserSession(username, isLoginActive())
-      RenderAToast(status as ToastStatusType, message)
-      if (status === 'success') {
-        navigate('/home')
+      const { name, email, password } = fields
+      let submitReturnApi
+      if (isLoginActive()) {
+        submitReturnApi = login({ email: email, password: password })
+        submitReturnApi.then((data: StrObjectAny) => {
+          if (data) {
+            processToken({ token: data.token, authenticated: true })
+            localStorage.setItem('user', JSON.stringify(data.user))
+            RenderAToast('success', `Welcome, ${data.user.name.split(' ')[0]}.`)
+            navigate('/home')
+          }
+        })
+      } else {
+        submitReturnApi = register({ name: name, email: email, password: password })
+        submitReturnApi.then((data: StrObjectAny) => {
+          if (data) {
+            RenderAToast('success', 'User registered successfully.')
+            setPageFunctionality('login')
+          }
+        })
       }
     }
   }
