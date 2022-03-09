@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'mobx-react-lite/batchingForReactDom'
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
 import 'react-toastify/dist/ReactToastify.css'
@@ -12,6 +12,7 @@ import * as serviceWorker from './serviceWorker'
 import { GlobalStyles } from './styles/global'
 import { api as CinejumpAPI } from 'apis/cinejump'
 import { RenderAToast } from 'helpers/toast'
+import CircularLoading from 'components/CircularLoading'
 
 const App: React.FC = () => {
   const [errorInterceptor, setErrorInterceptor] = useState<number | undefined>(undefined)
@@ -53,7 +54,9 @@ const App: React.FC = () => {
       <GlobalStyles />
       <StyledToast />
       <BrowserRouter>
-        <Router />
+        <Suspense fallback={<CircularLoading isRoute={true} />}>
+          <Router />
+        </Suspense>
       </BrowserRouter>
     </ContextProviderComposer>
   )

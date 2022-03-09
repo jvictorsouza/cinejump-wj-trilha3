@@ -1,8 +1,9 @@
 import React from 'react'
 import { RouteObject } from 'react-router'
-import Home from '../views/home'
-import Layout from '../views/layout'
-import User from '../views/user'
+
+const Home = React.lazy(() => import('../views/home'))
+const Layout = React.lazy(() => import('../views/layout'))
+const User = React.lazy(() => import('../views/user'))
 
 const routes: RouteObject[] = [
   {
