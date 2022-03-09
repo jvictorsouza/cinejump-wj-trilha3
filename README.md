@@ -1,4 +1,4 @@
-![image](https://user-images.githubusercontent.com/54218892/155206013-906de3fc-f4ed-4472-948f-aaf0381688ec.png)
+![image](https://user-images.githubusercontent.com/54218892/157514460-a1302985-4a3e-4306-9ca2-0d4ef81ab143.png)
 
 # Cinejump
 
@@ -49,6 +49,7 @@ O projeto tem como pilar as seguintes características/ferramentas:
 
 ## Requisitos e Instruções de execução
 
+### Aplicação
 Primeiro de tudo é necessário configurar o arquivo .env com a url da API TMDB (REACT_APP_TMDB_API_BASE_URL) juntamente com a key de acesso pessoal (REACT_APP_TMB_API_KEY), a url de acesso às imagens (IMAGE_BASE_URL) e por fim o token para acesso à API do Google, mais precisamente para a API Youtube Search (REACT_APP_API_GOOGLE_YOUTUBE_V3)
 
 Valores exemplo:
@@ -68,6 +69,15 @@ npm run start
 
 Acesse a url http://localhost:8080/
 
+### Storybook
+Após já ter instalado as dependencias do projeto, execute o comando abaixo na pasta raiz do projeto:
+```console
+npm run storybook
+```
+
 ## Vídeo demonstrativo
 
-https://user-images.githubusercontent.com/54218892/155205941-c66cbb2b-438b-45f7-894d-ee6035ee49c0.mp4
+https://user-images.githubusercontent.com/54218892/157513797-76f2ea2b-0ba5-4894-a40f-725f438a32fe.mp4
+
+https://user-images.githubusercontent.com/54218892/157514029-ce446c89-b890-4848-808e-fa4a139fee14.mp4
+
