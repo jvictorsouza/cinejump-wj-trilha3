@@ -48,4 +48,20 @@ const getTopMovies = async () => {
   return returnApi
 }
 
-export { getPopularMovies, getPlayingMovies, getRecomendationsMovies, getTopMovies }
+const getMovie = async (movie_id: number | string) => {
+  const returnApi = await api
+    .get(`/movie/${movie_id}`, {
+      params: defaultParams
+    })
+    .then((response) => response.data)
+    .catch((error) => console.log(error))
+  return returnApi
+}
+
+export {
+  getPopularMovies,
+  getPlayingMovies,
+  getRecomendationsMovies,
+  getTopMovies,
+  getMovie
+}
