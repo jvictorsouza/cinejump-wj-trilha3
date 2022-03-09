@@ -49,12 +49,13 @@ O projeto tem como pilar as seguintes características/ferramentas:
 
 ## Requisitos e Instruções de execução
 
-Primeiro de tudo é necessário configurar o arquivo .env com a url da API TMDB (REACT_APP_API_BASE_URL) juntamente com a key de acesso pessoal (REACT_APP_API_KEY), a url de acesso às imagens (IMAGE_BASE_URL) e por fim o token para acesso à API do Google, mais precisamente para a API Youtube Search (REACT_APP_API_GOOGLE_YOUTUBE_V3)
+Primeiro de tudo é necessário configurar o arquivo .env com a url da API TMDB (REACT_APP_TMDB_API_BASE_URL) juntamente com a key de acesso pessoal (REACT_APP_TMB_API_KEY), a url de acesso às imagens (IMAGE_BASE_URL) e por fim o token para acesso à API do Google, mais precisamente para a API Youtube Search (REACT_APP_API_GOOGLE_YOUTUBE_V3)
 
 Valores exemplo:
 
-- REACT_APP_API_BASE_URL = 'https://api.themoviedb.org/3'
-- REACT_APP_API_KEY = 'AIzaSyB0dAPeTlnv9j-7vM3-RCNPWA0NFmppvo0'
+- REACT_APP_TMDB_API_BASE_URL = 'https://api.themoviedb.org/3'
+- REACT_APP_TMB_API_KEY = 'AIzaSyB0dAPeTlnv9j-7vM3-RCNPWA0NFmppvo0'
+- REACT_APP_CINEJUMP_API_BASE_URL = 'https://cinejump-api.herokuapp.com'
 - IMAGE_BASE_URL = 'https://image.tmdb.org/t/p'
 - REACT_APP_API_GOOGLE_YOUTUBE_V3 = 'b9e1384462905203809836896979951d'
 

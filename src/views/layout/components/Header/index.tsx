@@ -35,7 +35,7 @@ const Header: React.FC<HeaderProps> = ({
   logoutFunction
 }) => {
   const functionalityNotAdded = () => {
-    RenderAToast('warnning', 'Funcionalidade não inserida')
+    RenderAToast('warnning', 'Functionality not added')
   }
 
   const handleBttnSpan = (index: number) => {

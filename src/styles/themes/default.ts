@@ -3,6 +3,7 @@ import DT from '../DesignTokens'
 
 export default {
   title: 'default',
+  // https://www.npmjs.com/package/styled-components-breakpoint
   breakpoints: {
     values: {
       xs: 0,

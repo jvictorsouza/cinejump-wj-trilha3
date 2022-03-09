@@ -1,14 +1,14 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_BASE_URL,
+  baseURL: process.env.REACT_APP_TMDB_API_BASE_URL,
   headers: {
     'Content-Type': 'application/json'
   }
 })
 
 const defaultParams = {
-  api_key: process.env.REACT_APP_API_KEY,
+  api_key: process.env.REACT_APP_TMB_API_KEY,
   language: 'pt-BR',
   region: 'BR'
 }
@@ -48,4 +48,20 @@ const getTopMovies = async () => {
   return returnApi
 }
 
-export { getPopularMovies, getPlayingMovies, getRecomendationsMovies, getTopMovies }
+const getMovie = async (movie_id: number | string) => {
+  const returnApi = await api
+    .get(`/movie/${movie_id}`, {
+      params: defaultParams
+    })
+    .then((response) => response.data)
+    .catch((error) => console.log(error))
+  return returnApi
+}
+
+export {
+  getPopularMovies,
+  getPlayingMovies,
+  getRecomendationsMovies,
+  getTopMovies,
+  getMovie
+}
