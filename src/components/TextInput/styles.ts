@@ -7,17 +7,17 @@ export const TextFieldStyled = styled(TextField)`
     addorment,
     height,
     width,
-    primaryColor,
-    textColor,
-    backgroundColor
+    primarycolor,
+    textcolor,
+    backgroundcolor
   }: {
     theme: DefaultTheme
     addorment: number | undefined
     height: number
     width: number | undefined
-    primaryColor: string | undefined
-    textColor: string | undefined
-    backgroundColor: string | undefined
+    primarycolor: string | undefined
+    textcolor: string | undefined
+    backgroundcolor: string | undefined
   }) =>
     theme &&
     css`
@@ -37,14 +37,14 @@ export const TextFieldStyled = styled(TextField)`
 
         ${theme.DesignTokens.DSComponents?.texts?.default02Text}
         color: ${({ theme }) => theme.colors.backgroundComponent};
-        ${textColor &&
+        ${textcolor &&
         css`
-          color: ${textColor};
+          color: ${textcolor};
         `}
         background-color: ${({ theme }) => theme.colors.hoverSecondary};
-        ${backgroundColor &&
+        ${backgroundcolor &&
         css`
-          background-color: ${backgroundColor};
+          background-color: ${backgroundcolor};
         `}
 
         border-radius: 10px;
@@ -54,10 +54,10 @@ export const TextFieldStyled = styled(TextField)`
         &.Mui-focused fieldset {
           outline: ${({ theme }) => theme.colors.primary};
           border: 2px solid ${({ theme }) => theme.colors.primary};
-          ${primaryColor &&
+          ${primarycolor &&
           css`
-            outline: ${primaryColor};
-            border: 2px solid ${primaryColor};
+            outline: ${primarycolor};
+            border: 2px solid ${primarycolor};
           `}
           border-radius: 10px;
         }

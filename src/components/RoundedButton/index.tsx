@@ -27,9 +27,9 @@ const RoundedButton: React.FC<RoundedButtonProps> = ({
       type={type}
       width={width}
       height={height}
-      primaryColor={primaryColor}
-      secondaryColor={secondaryColor}
-      hoverColor={hoverColor}
+      primarycolor={primaryColor}
+      secondarycolor={secondaryColor}
+      hovercolor={hoverColor}
       onClick={onClickButton}
     >
       {textButton}

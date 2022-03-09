@@ -5,16 +5,16 @@ export const ButtonStyled = styled('button')`
     theme,
     width,
     height,
-    primaryColor,
-    secondaryColor,
-    hoverColor
+    primarycolor,
+    secondarycolor,
+    hovercolor
   }: {
     theme?: DefaultTheme
     width: string
     height: string
-    primaryColor?: string
-    secondaryColor?: string
-    hoverColor?: string
+    primarycolor?: string
+    secondarycolor?: string
+    hovercolor?: string
   }) =>
     theme &&
     css`
@@ -30,20 +30,20 @@ export const ButtonStyled = styled('button')`
       height: ${height};
       min-height: 50px;
 
-      ${primaryColor &&
+      ${primarycolor &&
       css`
-        background-color: ${primaryColor};
+        background-color: ${primarycolor};
       `}
 
-      ${secondaryColor &&
+      ${secondarycolor &&
       css`
-        color: ${secondaryColor};
+        color: ${secondarycolor};
       `}
 
-      ${hoverColor &&
+      ${hovercolor &&
       css`
         :hover {
-          background-color: ${hoverColor};
+          background-color: ${hovercolor};
         }
       `}
     `}

@@ -66,9 +66,9 @@ const Input: React.FC<TextInputProps> = ({
     <>
       <FormControlStyled fullWidth>
         <TextFieldStyled
-          primaryColor={primaryColor}
-          textColor={textColor}
-          backgroundColor={backgroundColor}
+          primarycolor={primaryColor}
+          textcolor={textColor}
+          backgroundcolor={backgroundColor}
           error={hasError()}
           variant="outlined"
           name={name}
