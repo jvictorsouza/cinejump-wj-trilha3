@@ -1,13 +1,15 @@
+import { FavoritesTypeID, getFavorites, updateFavorites } from 'apis/cinejump'
 import {
+  getMovie,
   getPlayingMovies,
   getPopularMovies,
   getRecomendationsMovies,
   getTopMovies
 } from 'apis/tmdb'
 import { searchTrailer } from 'apis/youtube'
+import CircularLoading from 'components/CircularLoading'
 import { Assets } from 'helpers/assets'
-import { updateFavorites, verifyOnFavorites } from 'helpers/storage'
-import { StrObjectAny } from 'interfaces'
+import { StrObjectAny, StrObjectStr } from 'interfaces'
 import React, { useEffect, useState } from 'react'
 import {
   ContentHighlightsStyled,
@@ -25,6 +27,7 @@ import {
 } from './styles'
 
 const Home: React.FC = (...props) => {
+  const [circularLoading, setCircularLoading] = useState<boolean>(true)
   const [popularsMovies, setPopularsMovies] = useState<Array<StrObjectAny>>([])
   const [playingMovies, setPlayingMovies] = useState<Array<StrObjectAny>>([])
   const [topMovies, setTopMovies] = useState<Array<StrObjectAny>>([])
@@ -47,6 +50,25 @@ const Home: React.FC = (...props) => {
     })
     getTopMovies().then((data: StrObjectAny) => {
       if (data) setTopMovies(data.results)
+    })
+    getFavorites().then((data: Array<StrObjectAny>) => {
+      if (data && data.length > 0) {
+        let favoritesTMDBDataLoaded: Array<StrObjectAny> = []
+        data.forEach((favorite: StrObjectStr, index: number) => {
+          let movieDetails = getMovie(favorite.entity_id)
+          movieDetails.then((details: StrObjectAny) => {
+            favoritesTMDBDataLoaded.push({
+              original_title: details.original_title,
+              poster_path: details.poster_path,
+              id: details.id
+            })
+            if (index === data.length - 1) {
+              setFavoritesMovies(favoritesTMDBDataLoaded)
+              setCircularLoading(false)
+            }
+          })
+        })
+      }
     })
   }, [])
 
@@ -101,19 +123,30 @@ const Home: React.FC = (...props) => {
     )
   }
 
+  const verifyOnFavorites = (id: number) =>
+    favoritesMovies.find((favorite: StrObjectAny) => favorite.id === id)
+
+  const iterationOnFavorites = (movie: StrObjectAny) => {
+    let { id, original_title, poster_path } = movie
+    updateFavorites({ entity_id: id, type_id: FavoritesTypeID.movie })
+    let newFavorites = []
+    if (verifyOnFavorites(id)) {
+      newFavorites = favoritesMovies.filter(
+        (favorite: StrObjectStr) => favorite.id !== id
+      )
+    } else {
+      newFavorites = [...favoritesMovies]
+      newFavorites.push({ original_title, poster_path, id })
+    }
+    setFavoritesMovies(newFavorites)
+  }
+
   const renderMoviesRow = (
     data: Array<StrObjectAny>,
     title: string,
     rowId: string,
     addingInfoLabel?: string
   ) => {
-    const handleHeartFavorite = (movie: StrObjectAny) => {
-      let favorites: Array<StrObjectAny> = updateFavorites(
-        `${movie.original_title}|${movie.poster_path}-heart`
-      )
-      setFavoritesMovies(favorites)
-    }
-
     return (
       <div id="pre-layout-home-row">
         <LayoutRowStyled>
@@ -134,8 +167,12 @@ const Home: React.FC = (...props) => {
                     <HeartFavoritesStyled
                       key={`${rowId}-heart-image-card-${index}`}
                       id={`${movie.original_title}|${movie.poster_path}-heart`}
-                      src={verifyOnFavorites(movie.original_title, movie.poster_path)}
-                      onClick={() => handleHeartFavorite(movie)}
+                      src={
+                        verifyOnFavorites(movie.id)
+                          ? 'assets/images/BsHeartFill-red.svg'
+                          : 'assets/images/BsHeartFill-black.svg'
+                      }
+                      onClick={() => iterationOnFavorites(movie)}
                     />
                   </ImageCardStyled>
                 )
@@ -187,16 +224,20 @@ const Home: React.FC = (...props) => {
 
   return (
     <LayoutStyled>
-      <ContentStyled>
-        {renderHighlights()}
-        {renderMoviesRow(popularsMovies, 'Populares', 'populars')}
-        {renderMoviesRow(playingMovies, 'Em Exibição', 'playing')}
-        {renderTrailersRow(popularsMovies, 'Trailers')}
-        {renderMoviesRow(topMovies, 'Top Filmes', 'top', 'vote_average')}
-        {favoritesMovies && favoritesMovies.length > 0
-          ? renderMoviesRow(favoritesMovies, 'Favoritos', 'favorites')
-          : null}
-      </ContentStyled>
+      {circularLoading ? (
+        <CircularLoading />
+      ) : (
+        <ContentStyled>
+          {renderHighlights()}
+          {renderMoviesRow(popularsMovies, 'Populares', 'populars')}
+          {renderMoviesRow(playingMovies, 'Em Exibição', 'playing')}
+          {renderTrailersRow(popularsMovies, 'Trailers')}
+          {renderMoviesRow(topMovies, 'Top Filmes', 'top', 'vote_average')}
+          {favoritesMovies && favoritesMovies.length > 0
+            ? renderMoviesRow(favoritesMovies, 'Favoritos', 'favorites')
+            : null}
+        </ContentStyled>
+      )}
     </LayoutStyled>
   )
 }
