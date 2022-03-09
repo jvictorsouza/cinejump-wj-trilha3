@@ -36,13 +36,19 @@ const Home: React.FC = (...props) => {
   )
   const [favoritesMovies, setFavoritesMovies] = useState<Array<StrObjectAny>>([])
 
+  const searchRecomendations = (populars: Array<StrObjectAny>) => {
+    let randomIndex = Math.floor(Math.random() * populars.length)
+    getRecomendationsMovies(populars[randomIndex].id).then((data: StrObjectAny) => {
+      if (data && data.results.length >= 3) setRecomendationsMovies(data.results)
+      else searchRecomendations(populars)
+    })
+  }
+
   useEffect(() => {
     getPopularMovies().then((data: StrObjectAny) => {
       if (data) {
         setPopularsMovies(data.results)
-        getRecomendationsMovies(data.results[0].id).then((data: StrObjectAny) => {
-          if (data) setRecomendationsMovies(data.results)
-        })
+        searchRecomendations(data.results)
       }
     })
     getPlayingMovies().then((data: StrObjectAny) => {
@@ -70,6 +76,7 @@ const Home: React.FC = (...props) => {
         })
       }
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const renderHighlights = () => {
@@ -97,7 +104,7 @@ const Home: React.FC = (...props) => {
 
     const renderSecondaryHighlight = (movie: StrObjectAny) => {
       return (
-        <div title={`${movie.overview}`}>
+        <div title={`${movie.title}\n${movie.overview}`}>
           <img
             alt="SecondaryHighlight"
             src={`${process.env.REACT_APP_IMAGE_BASE_URL}/w300${movie.backdrop_path}`}

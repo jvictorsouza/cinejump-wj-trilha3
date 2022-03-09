@@ -130,6 +130,7 @@ export const RowStyled = styled.div`
 
 export const LayoutHighlightsStyled = styled.div`
   width: 100%;
+  min-height: 99px;
   background-color: ${({ theme }) => theme.colors.primary};
 `
 
@@ -175,6 +176,9 @@ export const SecondaryHighlightStyled = styled.div`
       margin-top: 10px 15px 0px 15px;
       border-radius: 0px 0px 10px 10px;
       z-index: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 `
