@@ -29,6 +29,7 @@ interface LoginFormProps {
 }
 
 const User: React.FC = () => {
+  const [loading, setLoading] = useState<boolean>(false)
   const navigate = useNavigate()
   const { setToken } = useAuth()
   const [pageFunctionality, setPageFunctionality] =
@@ -36,9 +37,15 @@ const User: React.FC = () => {
 
   const isLoginActive = () => pageFunctionality === 'login'
 
+  const initialFields: LoginFormProps = {
+    name: '',
+    email: '',
+    password: ''
+  }
+
   const handleChangePageFunctionality = () => {
     setErrors({})
-    setFields({})
+    setFields(initialFields)
     setPageFunctionality(isLoginActive() ? 'register' : 'login')
   }
 
@@ -87,26 +94,31 @@ const User: React.FC = () => {
   const handleSubmit = (event: any) => {
     event.preventDefault()
     if (validate()) {
+      setLoading(true)
       const { name, email, password } = fields
       let submitReturnApi
       if (isLoginActive()) {
         submitReturnApi = login({ email: email, password: password })
-        submitReturnApi.then((data: StrObjectAny) => {
-          if (data) {
-            processToken({ token: data.token, authenticated: true })
-            localStorage.setItem('user', JSON.stringify(data.user))
-            RenderAToast('success', `Welcome, ${data.user.name.split(' ')[0]}.`)
-            navigate('/home')
-          }
-        })
+        submitReturnApi
+          .then((data: StrObjectAny) => {
+            if (data) {
+              processToken({ token: data.token, authenticated: true })
+              localStorage.setItem('user', JSON.stringify(data.user))
+              RenderAToast('success', `Welcome, ${data.user.name.split(' ')[0]}.`)
+              navigate('/home')
+            }
+          })
+          .finally(() => setLoading(false))
       } else {
         submitReturnApi = register({ name: name, email: email, password: password })
-        submitReturnApi.then((data: StrObjectAny) => {
-          if (data) {
-            RenderAToast('success', 'User registered successfully.')
-            setPageFunctionality('login')
-          }
-        })
+        submitReturnApi
+          .then((data: StrObjectAny) => {
+            if (data) {
+              RenderAToast('success', 'User registered successfully.')
+              setPageFunctionality('login')
+            }
+          })
+          .finally(() => setLoading(false))
       }
     }
   }
@@ -127,12 +139,6 @@ const User: React.FC = () => {
 
     setErrors({ ...temp })
     return fieldValues === fields && validationIsValid(temp)
-  }
-
-  const initialFields: LoginFormProps = {
-    name: '',
-    email: '',
-    password: ''
   }
 
   const { fields, setFields, errors, setErrors, handleInputChange } = useForm({
@@ -190,7 +196,7 @@ const User: React.FC = () => {
             }}
             error={errors.password}
           />
-          <RoundedButton type="submit" textButton={textButton} />
+          <RoundedButton type="submit" textButton={textButton} isLoading={loading} />
         </Form>
       </CenterVerticalContentStyled>
     )

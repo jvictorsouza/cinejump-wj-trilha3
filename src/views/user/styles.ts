@@ -6,6 +6,7 @@ export const RowDivStyled = styled('div')`
   width: 100%;
   height: 100%;
   min-width: 1200px;
+  min-height: 715px;
 `
 
 export const ImageLogo = styled('img')`
