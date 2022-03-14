@@ -1,27 +1,64 @@
-import styled from '@emotion/styled'
-import { FormControl, TextField, Theme } from '@mui/material'
-import { css } from '@mui/styled-engine'
+import { FormControl, TextField } from '@mui/material'
+import styled, { css, DefaultTheme } from 'styled-components'
 
 export const TextFieldStyled = styled(TextField)`
-  ${({ addorment, height }: { addorment: number | undefined; height: number }) =>
+  ${({
+    theme,
+    addorment,
+    height,
+    width,
+    primarycolor,
+    textcolor,
+    backgroundcolor
+  }: {
+    theme: DefaultTheme
+    addorment: number | undefined
+    height: number
+    width: number | undefined
+    primarycolor: string | undefined
+    textcolor: string | undefined
+    backgroundcolor: string | undefined
+  }) =>
+    theme &&
     css`
       .MuiInputLabel-root {
         display: none;
       }
 
       .MuiOutlinedInput-root {
+        min-height: 35px;
         height: ${height}px;
-        font-size: 24px;
-        color: #7c7a7a;
-        font-weight: 400;
-        background-color: #efefef;
+
+        min-width: 100px;
+        ${width &&
+        css`
+          width: ${width}px;
+        `}
+
+        ${theme.DesignTokens.DSComponents?.texts?.default02Text}
+        color: ${({ theme }) => theme.colors.backgroundComponent};
+        ${textcolor &&
+        css`
+          color: ${textcolor};
+        `}
+        background-color: ${({ theme }) => theme.colors.hoverSecondary};
+        ${backgroundcolor &&
+        css`
+          background-color: ${backgroundcolor};
+        `}
+
         border-radius: 10px;
       }
 
       .MuiOutlinedInput-root {
         &.Mui-focused fieldset {
-          outline: #e83f5b;
-          border: 2px solid #e83f5b;
+          outline: ${({ theme }) => theme.colors.primary};
+          border: 2px solid ${({ theme }) => theme.colors.primary};
+          ${primarycolor &&
+          css`
+            outline: ${primarycolor};
+            border: 2px solid ${primarycolor};
+          `}
           border-radius: 10px;
         }
       }
@@ -56,8 +93,7 @@ export const TextFieldStyled = styled(TextField)`
 `
 
 export const FormControlStyled = styled(FormControl)`
-  ${({ theme, width }: { theme?: Theme; width?: number }) =>
-    theme &&
+  ${({ width }: { width?: number }) =>
     css`
       ${width &&
       css`

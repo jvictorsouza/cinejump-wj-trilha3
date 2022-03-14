@@ -1,19 +1,28 @@
-import "styled-components";
+import 'styled-components'
+import { DesignTokensInterface } from './DesignTokens/interfaces'
 
-declare module "styled-components" {
+declare module 'styled-components' {
   export interface DefaultTheme {
-    title: string;
-
+    title: string
+    breakpoints: {
+      values: {
+        xs: number
+        xsm: number
+        sm: number
+        md: number
+        lg: number
+      }
+    }
     colors: {
-      zero: string;
-      one: string;
-      two: string;
-      three: string;
-      four: string;
-      five: string;
-      six: string;
-      seven: string;
-      eigth: string;
-    };
+      primary: string
+      secondary: string
+      hoverMain: string
+      hoverPrimary: string
+      hoverSecondary: string
+      text: string
+      backgroundText: string
+      backgroundComponent: string
+    }
+    DesignTokens: DesignTokensInterface
   }
 }

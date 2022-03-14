@@ -25,7 +25,7 @@ const errorMessagesValidation = (
   minumumValueValidation =
     !isEmail || value.length <= 0
       ? minumumValueValidation
-      : value.split('@').length < 2 || value.split('.').length < 3
+      : value.split('@').length < 2 || value.split('.').length < 2
       ? errorMessages.invalidField
       : ''
 

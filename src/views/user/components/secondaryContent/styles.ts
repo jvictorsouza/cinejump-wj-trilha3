@@ -1,8 +1,8 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const ContentStyled: any = styled.div`
   min-width: 35%;
   height: 100%;
-  background-color: #e83f5b;
+  background-color: ${({ theme }) => theme.colors.primary};
   margin: auto;
-`;
+`

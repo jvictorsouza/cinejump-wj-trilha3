@@ -1,5 +1,4 @@
-import styled from '@emotion/styled'
-import { css } from '@mui/styled-engine'
+import styled, { css, DefaultTheme } from 'styled-components'
 
 export const LayoutStyled = styled('div')`
   ${({ backgroundColor }: { backgroundColor: string }) =>
@@ -9,7 +8,7 @@ export const LayoutStyled = styled('div')`
       min-width: 550px;
       position: fixed;
       top: 0;
-      z-index: 2;
+      z-index: 3;
     `}
 `
 
@@ -36,16 +35,23 @@ export const BttnsCampStyled = styled('div')`
 `
 
 export const BtnSpanStyled = styled('span')`
-  font-size: 20px;
-  font-weight: 300;
-  color: #ffffff;
+  ${({ theme, color }: { theme?: DefaultTheme; color: string }) =>
+    theme &&
+    css`
+      font-size: ${theme.DesignTokens.typography.font.size.x.small};
+      color: ${color};
 
-  :hover {
-    cursor: pointer;
-    font-weight: 400;
-  }
+      :hover {
+        cursor: pointer;
+        font-weight: ${theme.DesignTokens.typography.font.weight.medium};
+      }
+    `}
 `
 
 export const ImageLogo = styled('img')`
-  cursor: pointer;
+  ${({ maxHeight }: { maxHeight: string }) =>
+    css`
+      cursor: pointer;
+      max-height: ${maxHeight};
+    `}
 `

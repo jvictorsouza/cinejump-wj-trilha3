@@ -1,5 +1,4 @@
-import { css } from '@emotion/react'
-import styled from '@emotion/styled'
+import styled, { css, DefaultTheme } from 'styled-components'
 
 export const LayoutStyled = styled.div`
   display: flex;
@@ -13,11 +12,11 @@ export const ContentStyled = styled.div`
   width: 100%;
   #pre-layout-home-row {
     :hover {
-      background-color: #80bcb8;
+      background-color: ${({ theme }) => theme.colors.hoverMain};
       div {
-        background-color: #80bcb8;
+        background-color: ${({ theme }) => theme.colors.hoverMain};
         span {
-          color: white;
+          color: ${({ theme }) => theme.colors.text};
         }
       }
     }
@@ -29,48 +28,51 @@ export const LayoutRowStyled = styled.div`
 `
 
 export const ContentRowStyled = styled.div`
-  max-width: 1000px;
-  background-color: #ffffff;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  column-gap: 15px;
-  overflow: hidden;
-  padding: 15px 0;
+  ${({ theme }: { theme?: DefaultTheme }) =>
+    theme &&
+    css`
+      max-width: 1000px;
+      background-color: ${theme.colors.secondary};
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      column-gap: 15px;
+      overflow: hidden;
+      padding: 15px 0;
 
-  span {
-    width: 100%;
-    font-weight: 300;
-    font-size: 24px;
-    color: #e83f5b;
-    margin: 0 5px;
-  }
-  div {
-    display: flex;
-    flex-direction: row;
-    column-gap: 15px;
-    overflow-x: auto;
-    margin: 5px;
+      span {
+        width: 100%;
+        ${theme.DesignTokens.DSComponents?.texts?.default01Text}
+        color: ${theme.colors.primary};
+        margin: 0 5px;
+      }
+      div {
+        display: flex;
+        flex-direction: row;
+        column-gap: 15px;
+        overflow-x: auto;
+        margin: 5px;
 
-    ::-webkit-scrollbar {
-      height: 8px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #ffffff;
-      border-radius: 5px;
-    }
-    ::-webkit-scrollbar-thumb {
-      background-color: #e83f5b;
-      border-radius: 5px;
-    }
-  }
+        ::-webkit-scrollbar {
+          height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+          background: ${theme.colors.secondary};
+          border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb {
+          background-color: ${theme.colors.primary};
+          border-radius: 5px;
+        }
+      }
 
-  :hover {
-    background-color: #80bcb8;
-    span {
-      color: white;
-    }
-  }
+      :hover {
+        background-color: ${theme.colors.hoverMain};
+        span {
+          color: ${theme.colors.text};
+        }
+      }
+    `}
 `
 
 export const ImageCardStyled = styled.div`
@@ -114,21 +116,22 @@ export const PlayVideoStyled = styled.img`
 
 export const RowStyled = styled.div`
   div {
-    background-color: #80bcb8;
-    color: white;
+    background-color: ${({ theme }) => theme.colors.hoverMain};
+    color: ${({ theme }) => theme.colors.text};
     span {
-      color: white;
+      color: ${({ theme }) => theme.colors.text};
     }
   }
   :hover {
-    background-color: #80bcb8;
-    color: white;
+    background-color: ${({ theme }) => theme.colors.hoverMain};
+    color: ${({ theme }) => theme.colors.text};
   }
 `
 
 export const LayoutHighlightsStyled = styled.div`
   width: 100%;
-  background-color: #e83f5b;
+  min-height: 99px;
+  background-color: ${({ theme }) => theme.colors.primary};
 `
 
 export const ContentHighlightsStyled = styled.div`
@@ -163,16 +166,19 @@ export const SecondaryHighlightStyled = styled.div`
       top: 102px;
       max-width: 100%;
       height: 28px;
-      background-color: #0000004d;
-      border: 5px 5px 0 5px solid #0000004d;
+      background-color: ${({ theme }) => theme.colors.backgroundText};
+      border: 5px 5px 0 5px solid ${({ theme }) => theme.colors.backgroundText};
       padding: 5px 5px 0 5px;
-      color: #ffffff;
+      color: ${({ theme }) => theme.colors.text};
       font-size: 19px;
       font-weight: 400;
       line-height: 24px;
       margin-top: 10px 15px 0px 15px;
       border-radius: 0px 0px 10px 10px;
       z-index: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 `
@@ -197,9 +203,9 @@ export const MainHighlightStyled = styled.div`
     display: flex;
     flex-direction: column;
     span {
-      background-color: #0000004d;
+      background-color: ${({ theme }) => theme.colors.backgroundText};
       padding: 5px 5px 0px 5px;
-      color: #ffffff;
+      color: ${({ theme }) => theme.colors.text};
       font-size: 24px;
       font-weight: 400;
       line-height: 24px;
@@ -209,10 +215,10 @@ export const MainHighlightStyled = styled.div`
     }
     label {
       position: relative;
-      background-color: #0000004d;
-      border-radius: 0px 5px;
+      background-color: ${({ theme }) => theme.colors.backgroundText};
+      border-radius: 0px 0px 10px 10px;
       padding: 5px 5px;
-      color: #ffffff;
+      color: ${({ theme }) => theme.colors.text};
       font-size: 16px;
       font-weight: 300;
       line-height: 24px;

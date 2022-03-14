@@ -1,5 +1,4 @@
-import styled from '@emotion/styled'
-import { css } from '@mui/styled-engine'
+import styled, { css, DefaultTheme } from 'styled-components'
 
 export const LayoutStyled = styled('div')`
   ${({ backgroundColor }: { backgroundColor: string }) =>
@@ -21,22 +20,36 @@ export const ContentStyled = styled('div')`
 `
 
 export const ListLinksStyled = styled('div')`
-  display: flex;
-  flex-direction: column;
-  row-gap: 15px;
+  ${({ theme, color }: { theme?: DefaultTheme; color?: string }) =>
+    theme &&
+    css`
+      display: flex;
+      flex-direction: column;
+      row-gap: 15px;
+      margin: auto;
 
-  #LinkSpn {
-    color: #ffffff;
-    font-size: 14px;
-    font-weight: 300;
+      #LinkSpn {
+        color: ${theme.colors.text};
 
-    :hover {
-      cursor: pointer;
-      font-weight: 400;
-    }
-  }
+        ${color &&
+        css`
+          color: ${color};
+        `}
+
+        font-size: ${theme.DesignTokens.typography.font.size.small};
+
+        :hover {
+          cursor: pointer;
+          font-weight: ${theme.DesignTokens.typography.font.weight.medium};
+        }
+      }
+    `}
 `
 
 export const ImageLogo = styled('img')`
-  cursor: pointer;
+  ${({ maxHeight }: { maxHeight: string }) =>
+    css`
+      cursor: pointer;
+      max-height: ${maxHeight};
+    `}
 `

@@ -1,35 +1,33 @@
-import React, { useState, useEffect } from 'react'
+import { FavoritesTypeID, getFavorites, updateFavorites } from 'apis/cinejump'
 import {
-  getPopularMovies,
+  getMovie,
   getPlayingMovies,
+  getPopularMovies,
   getRecomendationsMovies,
   getTopMovies
 } from 'apis/tmdb'
-import {
-  ContentStyled,
-  LayoutStyled,
-  LayoutHighlightsStyled,
-  ContentHighlightsStyled,
-  MainHighlightStyled,
-  SecondaryHighlightStyled,
-  LayoutRowStyled,
-  ContentRowStyled,
-  ImageCardStyled,
-  HeartFavoritesStyled,
-  TrailerCardStyled,
-  PlayVideoStyled
-} from './styles'
-import { StrObjectAny } from 'interfaces'
-import { Assets } from 'helpers/assets'
 import { searchTrailer } from 'apis/youtube'
+import CircularLoading from 'components/CircularLoading'
+import { Assets } from 'helpers/assets'
+import { StrObjectAny, StrObjectStr } from 'interfaces'
+import React, { useEffect, useState } from 'react'
 import {
-  loadFavorites,
-  processStorageLogout,
-  updateFavorites,
-  verifyOnFavorites
-} from 'helpers/storage'
+  ContentHighlightsStyled,
+  ContentRowStyled,
+  ContentStyled,
+  HeartFavoritesStyled,
+  ImageCardStyled,
+  LayoutHighlightsStyled,
+  LayoutRowStyled,
+  LayoutStyled,
+  MainHighlightStyled,
+  PlayVideoStyled,
+  SecondaryHighlightStyled,
+  TrailerCardStyled
+} from './styles'
 
 const Home: React.FC = (...props) => {
+  const [circularLoading, setCircularLoading] = useState<boolean>(true)
   const [popularsMovies, setPopularsMovies] = useState<Array<StrObjectAny>>([])
   const [playingMovies, setPlayingMovies] = useState<Array<StrObjectAny>>([])
   const [topMovies, setTopMovies] = useState<Array<StrObjectAny>>([])
@@ -38,32 +36,47 @@ const Home: React.FC = (...props) => {
   )
   const [favoritesMovies, setFavoritesMovies] = useState<Array<StrObjectAny>>([])
 
-  useEffect(() => {
-    let userStorage = localStorage.getItem('user')
-    if (userStorage) {
-      getPopularMovies().then((data: StrObjectAny) => {
-        if (data) {
-          setPopularsMovies(data.results)
-          getRecomendationsMovies(data.results[0].id).then((data: StrObjectAny) => {
-            if (data) setRecomendationsMovies(data.results)
-          })
-        }
-      })
-      getPlayingMovies().then((data: StrObjectAny) => {
-        if (data) setPlayingMovies(data.results)
-      })
-      getTopMovies().then((data: StrObjectAny) => {
-        if (data) setTopMovies(data.results)
-      })
-      let favoritesData = loadFavorites()
+  const searchRecomendations = (populars: Array<StrObjectAny>) => {
+    let randomIndex = Math.floor(Math.random() * populars.length)
+    getRecomendationsMovies(populars[randomIndex].id).then((data: StrObjectAny) => {
+      if (data && data.results.length >= 3) setRecomendationsMovies(data.results)
+      else searchRecomendations(populars)
+    })
+  }
 
-      let user = JSON.parse(userStorage)
-      setFavoritesMovies(
-        Object.keys(favoritesData).includes(user) ? favoritesData[user] : []
-      )
-    } else {
-      processStorageLogout()
-    }
+  useEffect(() => {
+    getPopularMovies().then((data: StrObjectAny) => {
+      if (data) {
+        setPopularsMovies(data.results)
+        searchRecomendations(data.results)
+      }
+    })
+    getPlayingMovies().then((data: StrObjectAny) => {
+      if (data) setPlayingMovies(data.results)
+    })
+    getTopMovies().then((data: StrObjectAny) => {
+      if (data) setTopMovies(data.results)
+    })
+    getFavorites().then((data: Array<StrObjectAny>) => {
+      if (data && data.length > 0) {
+        let favoritesTMDBDataLoaded: Array<StrObjectAny> = []
+        data.forEach((favorite: StrObjectStr, index: number) => {
+          let movieDetails = getMovie(favorite.entity_id)
+          movieDetails.then((details: StrObjectAny) => {
+            favoritesTMDBDataLoaded.push({
+              original_title: details.original_title,
+              poster_path: details.poster_path,
+              id: details.id
+            })
+            if (index === data.length - 1) {
+              setFavoritesMovies(favoritesTMDBDataLoaded)
+              setCircularLoading(false)
+            }
+          })
+        })
+      }
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const renderHighlights = () => {
@@ -91,7 +104,7 @@ const Home: React.FC = (...props) => {
 
     const renderSecondaryHighlight = (movie: StrObjectAny) => {
       return (
-        <div title={`${movie.overview}`}>
+        <div title={`${movie.title}\n${movie.overview}`}>
           <img
             alt="SecondaryHighlight"
             src={`${process.env.REACT_APP_IMAGE_BASE_URL}/w300${movie.backdrop_path}`}
@@ -117,19 +130,30 @@ const Home: React.FC = (...props) => {
     )
   }
 
+  const verifyOnFavorites = (id: number) =>
+    favoritesMovies.find((favorite: StrObjectAny) => favorite.id === id)
+
+  const iterationOnFavorites = (movie: StrObjectAny) => {
+    let { id, original_title, poster_path } = movie
+    updateFavorites({ entity_id: id, type_id: FavoritesTypeID.movie })
+    let newFavorites = []
+    if (verifyOnFavorites(id)) {
+      newFavorites = favoritesMovies.filter(
+        (favorite: StrObjectStr) => favorite.id !== id
+      )
+    } else {
+      newFavorites = [...favoritesMovies]
+      newFavorites.push({ original_title, poster_path, id })
+    }
+    setFavoritesMovies(newFavorites)
+  }
+
   const renderMoviesRow = (
     data: Array<StrObjectAny>,
     title: string,
     rowId: string,
     addingInfoLabel?: string
   ) => {
-    const handleHeartFavorite = (movie: StrObjectAny) => {
-      let favorites: Array<StrObjectAny> = updateFavorites(
-        `${movie.original_title}|${movie.poster_path}-heart`
-      )
-      setFavoritesMovies(favorites)
-    }
-
     return (
       <div id="pre-layout-home-row">
         <LayoutRowStyled>
@@ -150,8 +174,12 @@ const Home: React.FC = (...props) => {
                     <HeartFavoritesStyled
                       key={`${rowId}-heart-image-card-${index}`}
                       id={`${movie.original_title}|${movie.poster_path}-heart`}
-                      src={verifyOnFavorites(movie.original_title, movie.poster_path)}
-                      onClick={() => handleHeartFavorite(movie)}
+                      src={
+                        verifyOnFavorites(movie.id)
+                          ? 'assets/images/BsHeartFill-red.svg'
+                          : 'assets/images/BsHeartFill-black.svg'
+                      }
+                      onClick={() => iterationOnFavorites(movie)}
                     />
                   </ImageCardStyled>
                 )
@@ -203,16 +231,20 @@ const Home: React.FC = (...props) => {
 
   return (
     <LayoutStyled>
-      <ContentStyled>
-        {renderHighlights()}
-        {renderMoviesRow(popularsMovies, 'Populares', 'populars')}
-        {renderMoviesRow(playingMovies, 'Em Exibição', 'playing')}
-        {renderTrailersRow(popularsMovies, 'Trailers')}
-        {renderMoviesRow(topMovies, 'Top Filmes', 'top', 'vote_average')}
-        {favoritesMovies && favoritesMovies.length > 0
-          ? renderMoviesRow(favoritesMovies, 'Favoritos', 'favorites')
-          : null}
-      </ContentStyled>
+      {circularLoading ? (
+        <CircularLoading />
+      ) : (
+        <ContentStyled>
+          {renderHighlights()}
+          {renderMoviesRow(popularsMovies, 'Populares', 'populars')}
+          {renderMoviesRow(playingMovies, 'Em Exibição', 'playing')}
+          {renderTrailersRow(popularsMovies, 'Trailers')}
+          {renderMoviesRow(topMovies, 'Top Filmes', 'top', 'vote_average')}
+          {favoritesMovies && favoritesMovies.length > 0
+            ? renderMoviesRow(favoritesMovies, 'Favoritos', 'favorites')
+            : null}
+        </ContentStyled>
+      )}
     </LayoutStyled>
   )
 }

@@ -1,22 +1,24 @@
+import { login, register } from 'apis/cinejump'
+import RoundedButton from 'components/RoundedButton'
+import TextInput from 'components/TextInput'
 import { Assets } from 'helpers/assets'
 import { errorMessagesValidation } from 'helpers/string'
-import { setUserSession } from 'helpers/storage'
-import { RenderAToast, ToastStatusType } from 'helpers/toast'
+import { RenderAToast } from 'helpers/toast'
+import useAuth, { TokenInterface } from 'hooks/useAuth'
+import useForm, { Form } from 'hooks/useForm'
+import { StrObjectAny } from 'interfaces'
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import PrimaryContent from './components/primaryContent'
 import SecondaryContent from './components/secondaryContent'
 import {
-  RowDivStyled,
   BaseStyled,
-  ImageLogo,
   CenterVerticalContentStyled,
-  Title,
-  SubTitle,
-  BottomButton
+  ImageLogo,
+  RowDivStyled,
+  SubTitleStyled,
+  TitleStyled
 } from './styles'
-import useForm, { Form } from 'hooks/useForm'
-import TextInput from 'components/TextInput'
-import { useNavigate } from 'react-router-dom'
 
 type PageFunctionalityType = 'login' | 'register'
 
@@ -28,6 +30,7 @@ interface LoginFormProps {
 
 const User: React.FC = () => {
   const navigate = useNavigate()
+  const { setToken } = useAuth()
   const [pageFunctionality, setPageFunctionality] =
     useState<PageFunctionalityType>('login')
 
@@ -47,11 +50,11 @@ const User: React.FC = () => {
   ) => {
     return (
       <CenterVerticalContentStyled>
-        <Title color="white" fontWeight={500}>
+        <TitleStyled color="white" fontWeight={500}>
           {title}
-        </Title>
-        <SubTitle>{subtitle}</SubTitle>
-        <BottomButton onClick={onClickButton}>{textButton}</BottomButton>
+        </TitleStyled>
+        <SubTitleStyled>{subtitle}</SubTitleStyled>
+        <RoundedButton onClickButton={onClickButton} textButton={textButton} />
       </CenterVerticalContentStyled>
     )
   }
@@ -76,15 +79,34 @@ const User: React.FC = () => {
     )
   }
 
+  const processToken = (data: TokenInterface) => {
+    setToken(data)
+    localStorage.setItem('token', JSON.stringify(data))
+  }
+
   const handleSubmit = (event: any) => {
     event.preventDefault()
     if (validate()) {
-      const { email } = fields
-      const username = email.split('@')[0]
-      const { status, message } = setUserSession(username, isLoginActive())
-      RenderAToast(status as ToastStatusType, message)
-      if (status === 'success') {
-        navigate('/home')
+      const { name, email, password } = fields
+      let submitReturnApi
+      if (isLoginActive()) {
+        submitReturnApi = login({ email: email, password: password })
+        submitReturnApi.then((data: StrObjectAny) => {
+          if (data) {
+            processToken({ token: data.token, authenticated: true })
+            localStorage.setItem('user', JSON.stringify(data.user))
+            RenderAToast('success', `Welcome, ${data.user.name.split(' ')[0]}.`)
+            navigate('/home')
+          }
+        })
+      } else {
+        submitReturnApi = register({ name: name, email: email, password: password })
+        submitReturnApi.then((data: StrObjectAny) => {
+          if (data) {
+            RenderAToast('success', 'User registered successfully.')
+            setPageFunctionality('login')
+          }
+        })
       }
     }
   }
@@ -122,9 +144,9 @@ const User: React.FC = () => {
   const renderPrimarySubContent = (title: string, textButton: string) => {
     return (
       <CenterVerticalContentStyled>
-        <Title color="#E83F5B" fontWeight={400}>
+        <TitleStyled color="#E83F5B" fontWeight={400}>
           {title}
-        </Title>
+        </TitleStyled>
         <Form onSubmit={handleSubmit} autoComplete>
           {!isLoginActive() ? (
             <TextInput
@@ -168,8 +190,7 @@ const User: React.FC = () => {
             }}
             error={errors.password}
           />
-
-          <BottomButton type="submit">{textButton}</BottomButton>
+          <RoundedButton type="submit" textButton={textButton} />
         </Form>
       </CenterVerticalContentStyled>
     )

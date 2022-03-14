@@ -1,35 +1,43 @@
+import useAuth from 'hooks/useAuth'
 import React, { useEffect } from 'react'
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
+import DesignTokens from '../../styles/DesignTokens'
 import Footer from './components/Footer'
 import Header from './components/Header'
 import { Styles } from './styles'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 const Layout: React.FC = () => {
+  const { handleLogout } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
 
   useEffect(() => {
-    if (!localStorage.getItem('session')) navigate('/user')
-  }, [navigate])
+    let tokenStorage = localStorage.getItem('token')
+    let token = (tokenStorage && JSON.parse(tokenStorage)) || undefined
+    if (!token && location.pathname !== '/user') navigate('/user')
+    else if (location.pathname !== '/home') navigate('/home')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-  const logoutAndRedirect = () => {
-    localStorage.removeItem('session')
-    localStorage.removeItem('user')
+  const logoutFunction = () => {
+    handleLogout()
     navigate('/user')
   }
 
   return (
     <Styles>
       <Header
-        primaryColor="#E83F5B"
-        secondaryColor="#FFFFFF"
+        primaryColor={DesignTokens.palette.primary}
+        secondaryColor={DesignTokens.palette.secondary}
         buttonsTitles={['Filmes', 'Séries']}
-        imageLogo="assets/images/Logo-white.svg"
-        logoutFunction={logoutAndRedirect}
+        urlPathImageLogo="assets/images/Logo-white.svg"
+        logoutFunction={logoutFunction}
       />
       <Outlet />
       <Footer
-        primaryColor="#E83F5B"
-        secondaryColor="#FFFFFF"
+        primaryColor={DesignTokens.palette.primary}
+        secondaryColor={DesignTokens.palette.secondary}
         linkTitles={[
           'Desenvolvido por João Chagas',
           'Proposta do projeto',
@@ -45,7 +53,7 @@ const Layout: React.FC = () => {
           '_blank',
           'https://webjump.atlassian.net/wiki/spaces/AW/pages/2195030481/Projeto+Final+-+Trilha+1'
         ]}
-        imageLogo="assets/images/Logo-white.svg"
+        urlPathImageLogo="assets/images/Logo-white.svg"
       />
     </Styles>
   )
