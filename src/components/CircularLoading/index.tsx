@@ -3,11 +3,12 @@ import { BoxStyled, CircularLoadingStyled } from './styles'
 
 interface Props {
   isRoute?: boolean
+  color?: string
 }
-const CircularLoading: React.FC<Props> = ({ isRoute = false }) => (
+const CircularLoading: React.FC<Props> = ({ isRoute = false, color }) => (
   <>
     <BoxStyled isroute={isRoute ? 1 : 0}>
-      <CircularLoadingStyled />
+      <CircularLoadingStyled loadingcolor={color} />
     </BoxStyled>
   </>
 )
