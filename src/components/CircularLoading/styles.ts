@@ -11,12 +11,16 @@ export const BoxStyled = styled(Box)`
     `}
 `
 export const CircularLoadingStyled = styled(CircularProgress)`
-  ${({ theme }: { theme?: DefaultTheme }) =>
+  ${({ theme, loadingcolor }: { theme?: DefaultTheme; loadingcolor?: string }) =>
     theme &&
     css`
       margin: auto;
       svg {
         color: ${theme.colors.primary};
+        ${loadingcolor &&
+        css`
+          color: ${loadingcolor};
+        `}
       }
     `}
 `

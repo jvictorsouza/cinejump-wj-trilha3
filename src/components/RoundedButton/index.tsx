@@ -1,5 +1,7 @@
+import CircularLoading from 'components/CircularLoading'
 import React from 'react'
 import { ButtonStyled } from './styles'
+import DesignTokens from 'styles/DesignTokens'
 
 export interface RoundedButtonProps {
   type?: 'button' | 'submit' | 'reset' | undefined
@@ -10,6 +12,7 @@ export interface RoundedButtonProps {
   hoverColor?: string
   onClickButton?: React.MouseEventHandler<HTMLButtonElement>
   textButton: string
+  isLoading?: boolean
 }
 
 const RoundedButton: React.FC<RoundedButtonProps> = ({
@@ -20,7 +23,8 @@ const RoundedButton: React.FC<RoundedButtonProps> = ({
   secondaryColor,
   hoverColor,
   onClickButton = () => {},
-  textButton
+  textButton,
+  isLoading = false
 }) => {
   return (
     <ButtonStyled
@@ -31,8 +35,15 @@ const RoundedButton: React.FC<RoundedButtonProps> = ({
       secondarycolor={secondaryColor}
       hovercolor={hoverColor}
       onClick={onClickButton}
+      disabled={isLoading}
     >
-      {textButton}
+      {isLoading ? (
+        <CircularLoading
+          color={(secondaryColor && secondaryColor) || DesignTokens.palette.secondary}
+        />
+      ) : (
+        textButton
+      )}
     </ButtonStyled>
   )
 }
